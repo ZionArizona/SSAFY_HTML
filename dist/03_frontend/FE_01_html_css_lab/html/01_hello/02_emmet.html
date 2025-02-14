@@ -1,0 +1,85 @@
+<!--TODO: 다음의 emmet 약어들을 사용해보자.-->
+<!--
+약어            설명                        사용 예
+! + tab         HTML5 문서의 기본 구조 생성    
+>               하위 요소 사용              header>ul>li
++               동급 요소 생성              section>article>h2+p
+*               반복 개수 지정              ul>li*5
+# , .           각각 id와 class 지정        ul#menu>li.item*3
+( )             그룹핑                      div.container>(header>nav>ul>li*5>a)+(div#content>section)+footer
+[attribute]     속성 지정                   td[title="name" colspan="5"]
+{ }             텍스트 입력                 a.button{Click Me}
+$               넘버링                      ul.list>li.item$*5>{$}
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <header>
+      <ul>
+        <li></li>
+      </ul>
+    </header>
+
+    <section>
+      <article>
+        <h2></h2>
+        <p></p>
+      </article>
+    </section>
+
+    <ul id="menu">
+      <li class="item"></li>
+      <li class="item"></li>
+      <li class="item"></li>
+    </ul>
+
+    <div class="container">
+      <header>
+        <nav>
+          <ul>
+            <li><a href=""></a></li>
+            <li><a href=""></a></li>
+            <li><a href=""></a></li>
+            <li><a href=""></a></li>
+            <li><a href=""></a></li>
+          </ul>
+        </nav>
+      </header>
+      <div id="content">
+        <section></section>
+      </div>
+      <footer></footer>
+    </div>
+
+    <div class="container">
+      <header>
+        <nav>
+          <ul>
+            <li><a href=""></a></li>
+            <li><a href=""></a></li>
+            <li><a href=""></a></li>
+            <li><a href=""></a></li>
+            <li><a href=""></a></li>
+          </ul>
+        </nav>
+      </header>
+      <div id="content">
+        <section></section>
+      </div>
+      <footer></footer>
+    </div>
+
+    <ul class="list">
+      <li class="item1">1</li>
+      <li class="item2">2</li>
+      <li class="item3">3</li>
+      <li class="item4">4</li>
+      <li class="item5">5</li>
+    </ul>
+  </body>
+</html>

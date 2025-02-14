@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      img {
+        /*TODO: 02. layout 유지와 loading을 확인하기 위해 width와 height를 주석하고 테스트 해보자.*/
+        width: 100px;
+        height: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>The img loading attribute</h1>
+    <h1>The img loading attribute</h1>
+    <h1>The img loading attribute</h1>
+    <h1>The img loading attribute</h1>
+    <!-- TODO: 01. resource/wedding.jpg와 rocks.jpg를 절대/상대 경로로 출력해보자. -->
+    <img src="../../resource/wedding.jpg" alt="결혼 이미지" />
+    안녕
+    <img src="../../resource/rocks.jpg" alt="결혼 이미지" />
+    <!--END-->
+
+    <!-- off-screen images -->
+    <img src="https://www.w3schools.com/w3images/paris.jpg" loading="lazy" />
+    <img src="https://www.w3schools.com/w3images/nature.jpg" loading="lazy" />
+    <img src="https://www.w3schools.com/w3images/underwater.jpg" loading="lazy" />
+    <img src="https://www.w3schools.com/w3images/ocean.jpg" loading="lazy" />
+    <img src="https://www.w3schools.com/w3images/mountainskies.jpg" loading="eager" />
+  </body>
+</html>

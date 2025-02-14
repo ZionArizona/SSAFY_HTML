@@ -1,0 +1,29 @@
+<!--05_dom/01_simple_event.html-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button onclick="btnClicked(event)">직접호출 방식</button>
+    <button id="btn2">콜백등록 방식</button>
+  </body>
+  <script>
+    //TODO: 01. 위 버튼들에서 발생하는 클릭 이벤트를 처리해보자.
+    const btnClicked = (e) => {
+      console.log("btn clicked");
+      console.log(e);
+      console.log(e.target, e.currentTarget);
+    };
+
+    document.getElementById("btn2").addEventListener("click", (e) => {
+      console.log("event listener");
+      //console.log(event); 보통 event를 생각하기는 쉽지 않기 때문에 e라고 미리 선언하고 사용.
+      console.log(e.target, e.currentTarget);
+    });
+
+    //END
+  </script>
+</html>

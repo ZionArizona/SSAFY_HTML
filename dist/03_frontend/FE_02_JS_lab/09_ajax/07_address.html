@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <select id="sido">
+      <option value="" selected disabled>시도 선택</option>
+    </select>
+    <select id="gugun">
+      <option value="" selected disabled>구군 선택</option>
+    </select>
+    <select id="dong">
+      <option value="" selected disabled>읍면동 선택</option>
+    </select>
+
+    <div id="map" style="width: 100%; height: 500px"></div>
+  </body>
+  <!--서비스 ID 설정-->
+   <script type="text/javascript" src="https://sgisapi.kostat.go.kr/OpenAPI3/auth/javascriptAuth?consumer_key=[SGIS 서비스 ID]"></script>
+  <script>
+    // TODO: 01. 개별적으로 발급받은 키를 등록하세요.
+     const key_vworld = "v_world의 인증키";
+     const key_sgis_service_id = "서비스 id"; // 서비스 id
+     const key_sgis_security="보안 key"   // 보안 key
+
+    // END
+
+    const sido = document.querySelector("#sido");
+    const gugun = document.querySelector("#gugun");
+    const dong = document.querySelector("#dong");
+
+    // SGIS에서 동적으로 획득함
+    let accessToken;
+
+    /*
+      특정 select의 option 내용을 업데이트 하는 함수
+       - select: select 객체
+       - type: select의 타입으로 시도 | 구군 | 읍면동
+       - data: 표현할 데이터 [{key, label}]
+    */
+    const updateSelect = (select, type, data) => {
+      select.innerHTML = `<option value="" selected disabled>${type} 선택</option>`;
+      if (data) {
+        data.forEach((element) => {
+          select.innerHTML += `<option value="${element.key}">${element.label}</option>`;
+        });
+      }
+    };
+
+    /*
+    get 방식으로 fetch 처리하기 위한 함수
+     - url: 요청 url
+     - param: 요청 parameter
+     - isXml: 요청 방식이 xml 인지 여부
+    */
+
+    const getFetch = async (url, param, isXml) => {
+      try {
+        const queryString = new URLSearchParams(param).toString();
+        const response = await fetch(url + "?" + queryString);
+        let result = isXml ? await response.text() : await response.json();
+        console.log("요청 URL: " + url, param, result);
+        return result;
+      } catch (e) {
+        console.log(e);
+        throw e;
+      }
+    };
+
+    const initSidoSelect = async function () {
+      //TODO: 02. 화면이 로딩되면 시도 정보를 업데이트 하세요.
+
+      //END
+    };
+
+    sido.addEventListener("change", async function () {
+      //TODO: 03. 시도를 선택하면 구군 정보를 업데이트 하세요.
+
+      //END
+    });
+
+    gugun.addEventListener("change", async function () {
+      //TODO: 04. 구군 선택 시 dong을 업데이트 해보세요.
+
+      //END
+    });
+
+    dong.addEventListener("change", async function () {
+      //TODO: 05. 동 선택 시 현재까지의 주소를 출력해보세요. 맵 호출 시 [{address, utmk, label}]를 전달한다.
+      // const sidoLabel = sido.options[sido.selectedIndex].text;
+
+      //END
+    });
+
+    //TODO: 06. 맵을 초기화하고 marker와 infowindow를 보여보자.
+    const map = sop.map("map");
+    const initMap = () => {
+    };
+
+    //END
+
+    // access token 가져오기
+    const getAccessToken = async () => {
+      try {
+        const json = await getFetch("https://sgisapi.kostat.go.kr/OpenAPI3/auth/authentication.json", {
+          consumer_key: key_sgis_service_id, // 서비스 id
+          consumer_secret: key_sgis_security, // 보안 key
+        });
+        accessToken = json.result.accessToken;
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    // 주소를 UTM-K좌표로 변환해서 반환: - json의 errCd ==-401에서 access token 확보!!
+    const getCoords = async (address) => {
+      console.log("address : " + address);
+      try {
+        const json = await getFetch("https://sgisapi.kostat.go.kr/OpenAPI3/addr/geocode.json", {
+          accessToken: accessToken,
+          address: address,
+          resultcount: 1,
+        });
+        if (json.errCd === -401) {
+          await getAccessToken();
+          return await getCoords(address);
+        }
+        return json.result.resultdata[0];
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    // marker 목록
+    const markers = [];
+    // 경계 목록
+    const bounds = [];
+
+    // 마커와 경계 초기화
+    const resetMarker = () => {
+      markers.forEach((item) => item.remove());
+      bounds.length = 0;
+    };
+
+    const updateMap = (infos) => {
+      resetMarker();
+      try {
+        for (let i = 0; i < infos.length; i++) {
+          const info = infos[i];
+          const marker = sop.marker([info.utmk.x, info.utmk.y]);
+          marker.addTo(map).bindInfoWindow(info.label);
+          markers.push(marker);
+          bounds.push([info.utmk.x, info.utmk.y]);
+        }
+        // 경계를 기준으로 map을 중앙에 위치하도록 함
+        if (bounds.length > 1) {
+          map.setView(map._getBoundsCenterZoom(bounds).center, map._getBoundsCenterZoom(bounds).zoom);
+        } else {
+          map.setView(map._getBoundsCenterZoom(bounds).center, 9);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    // 초기화 코드 호출
+    initSidoSelect();
+    initMap();
+  </script>
+</html>
